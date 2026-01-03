@@ -1,9 +1,9 @@
 const utils = @import("main.zig").utils;
+const color = @import("color.zig");
 const std = @import("std");
 
 pub const print = struct {
-    /// Returns the ANSI sequence as a []const u8
-    pub const reset = utils.comptimeCsi(utils.reset, .{});
+    pub const reset = color.print.reset;
 
     /// Returns the ANSI sequence to set bold mode
     pub const bold = utils.comptimeCsi(utils.style_bold, .{});
@@ -38,10 +38,8 @@ pub const print = struct {
     pub const no_strikethrough = utils.comptimeCsi(utils.style_no_strikethrough, .{});
 };
 
-/// Returns the ANSI sequence as a []const u8
-pub fn reset(writer: *std.Io.Writer) !void {
-    return writer.print(print.reset, .{});
-}
+/// Writes the escape code to reset style and color
+pub const resetAll = color.resetAll;
 
 /// Outputs the ANSI sequence to set/unset bold mode
 pub fn bold(writer: *std.io.Writer, v: bool) !void {
