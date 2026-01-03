@@ -80,7 +80,7 @@ pub const RawTerm = struct {
     const Self = @This();
 
     /// Returns to the previous terminal state
-    pub fn disableRawMode(self: *Self) !void {
+    pub fn disableRawMode(self: Self) !void {
         switch (builtin.os.tag) {
             .linux => try self.disableRawModePosix(),
             .macos => try self.disableRawModePosix(),
@@ -89,11 +89,11 @@ pub const RawTerm = struct {
         }
     }
 
-    fn disableRawModePosix(self: *Self) !void {
+    fn disableRawModePosix(self: Self) !void {
         try posix.tcsetattr(self.handle, .FLUSH, self.context);
     }
 
-    fn disableRawModeWindows(self: *Self) !void {
+    fn disableRawModeWindows(self: Self) !void {
         try winapiGlue.setConsoleMode(self.handle, self.context);
     }
 };
