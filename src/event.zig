@@ -1,5 +1,4 @@
 const std = @import("std");
-const io = std.io;
 const unicode = std.unicode;
 const windows = std.os.windows;
 
@@ -43,7 +42,7 @@ pub const Key = struct {
     mods: Modifiers = .{},
     code: KeyCode,
 
-    pub fn format(this: @This(), writer: *std.io.Writer) std.io.Writer.Error!void {
+    pub fn format(this: @This(), writer: *std.Io.Writer) std.Io.Writer.Error!void {
         try writer.writeAll("Key{ ");
         var first = true;
 
@@ -94,7 +93,7 @@ pub const Mouse = struct {
     is_shift: bool,
     is_ctrl: bool,
 
-    pub fn format(this: @This(), writer: *std.io.Writer) std.io.Writer.Error!void {
+    pub fn format(this: @This(), writer: *std.Io.Writer) std.Io.Writer.Error!void {
         try writer.writeAll("Mouse.");
         try writer.print("x: {d}, y: {d}, button: {any}, is_alt: {any}, is_shift: {any}, is_ctrl: {any}", .{ this.x, this.y, this.button, this.is_alt, this.is_shift, this.is_ctrl });
     }
