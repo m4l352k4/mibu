@@ -9,7 +9,7 @@ const winapiGlue = @import("winapiGlue.zig");
 const builtin = @import("builtin");
 
 pub fn enableRawMode(handle: Io.File.Handle) !RawTerm {
-    switch (builtin.os.tag) {
+    switch (builtin.target.os.tag) {
         .linux => return enableRawModePosix(handle),
         .macos => return enableRawModePosix(handle),
         .windows => return enableRawModeWindows(handle),
@@ -41,8 +41,8 @@ fn enableRawModePosix(handle: posix.fd_t) !RawTerm {
 
     termios.cflag.CSIZE = .CS8;
 
-    termios.cc[@intFromEnum(posix.V.MIN)] = 1;
-    termios.cc[@intFromEnum(posix.V.TIME)] = 0;
+    termios.cc[@backingInt(posix.V.MIN)] = 1;
+    termios.cc[@backingInt(posix.V.TIME)] = 0;
 
     // apply changes
     try posix.tcsetattr(handle, .FLUSH, termios);
@@ -68,7 +68,7 @@ fn enableRawModeWindows(handle: windows.HANDLE) !RawTerm {
 /// A raw terminal representation, you can enter terminal raw mode
 /// using this struct. Raw mode is essential to create a TUI.
 pub const RawTerm = struct {
-    context: switch (builtin.os.tag) {
+    context: switch (builtin.target.os.tag) {
         .windows => windows.DWORD,
         else => posix.termios,
     },
@@ -80,7 +80,7 @@ pub const RawTerm = struct {
 
     /// Returns to the previous terminal state
     pub fn disableRawMode(self: *Self) !void {
-        switch (builtin.os.tag) {
+        switch (builtin.target.os.tag) {
             .linux => try self.disableRawModePosix(),
             .macos => try self.disableRawModePosix(),
             .windows => try self.disableRawModeWindows(),
@@ -105,7 +105,7 @@ pub const TermSize = struct {
 
 /// Get the terminal size, use `fd` equals to 0 use stdin
 pub fn getSize(handle: Io.File.Handle) !TermSize {
-    switch (builtin.os.tag) {
+    switch (builtin.target.os.tag) {
         .linux => return getSizePosix(handle),
         .macos => return getSizePosix(handle),
         .windows => return getSizeWindows(handle),

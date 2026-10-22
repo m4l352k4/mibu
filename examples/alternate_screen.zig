@@ -24,7 +24,7 @@ pub fn main(init: std.process.Init) !void {
         return;
     }
 
-    if (builtin.os.tag == .windows) {
+    if (builtin.target.os.tag == .windows) {
         try mibu.enableWindowsVTS(stdout_file.handle);
     }
 

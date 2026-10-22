@@ -10,7 +10,7 @@ pub fn main(init: std.process.Init) !void {
     var stdout_writer = stdout_file.writer(init.io, &stdout_buf);
     const out = &stdout_writer.interface;
 
-    if (builtin.os.tag == .windows) {
+    if (builtin.target.os.tag == .windows) {
         try mibu.enableWindowsVTS(stdout_file.handle);
     }
 

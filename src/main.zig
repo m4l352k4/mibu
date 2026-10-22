@@ -10,7 +10,7 @@ pub const events = @import("event.zig");
 pub const scroll = @import("scroll.zig");
 pub const termbg = @import("termbg.zig");
 
-pub const enableWindowsVTS = switch (@import("builtin").os.tag) {
+pub const enableWindowsVTS = switch (@import("builtin").target.os.tag) {
     .windows => @import("utils.zig").enableWindowsVTS,
     else => @compileError("enableWindowsVTS is supported only on Windows"),
 };
@@ -26,4 +26,3 @@ test {
     _ = scroll;
     _ = termbg;
 }
-

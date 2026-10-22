@@ -284,12 +284,12 @@ pub const Color = enum(u8) {
 pub const print = struct {
     /// Returns a string to change text foreground using 256 colors
     pub inline fn fg(comptime color: Color) []const u8 {
-        return utils.comptimeCsi("38;5;{d}m", .{@intFromEnum(color)});
+        return utils.comptimeCsi("38;5;{d}m", .{@backingInt(color)});
     }
 
     /// Returns a string to change text background using 256 colors
     pub inline fn bg(comptime color: Color) []const u8 {
-        return utils.comptimeCsi("48;5;{d}m", .{@intFromEnum(color)});
+        return utils.comptimeCsi("48;5;{d}m", .{@backingInt(color)});
     }
 
     pub const reset = utils.comptimeCsi("0m", .{});
@@ -297,12 +297,12 @@ pub const print = struct {
 
 /// Writes the escape sequence code to change foreground to `color` (using 256 colors)
 pub fn fg256(writer: *Io.Writer, color: Color) !void {
-    return writer.print(utils.csi ++ utils.fg_256 ++ "{d}m", .{@intFromEnum(color)});
+    return writer.print(utils.csi ++ utils.fg_256 ++ "{d}m", .{@backingInt(color)});
 }
 
 /// Writes the escape sequence code to change background to `color` (using 256 colors)
 pub fn bg256(writer: *Io.Writer, color: Color) !void {
-    return writer.print(utils.csi ++ utils.bg_256 ++ "{d}m", .{@intFromEnum(color)});
+    return writer.print(utils.csi ++ utils.bg_256 ++ "{d}m", .{@backingInt(color)});
 }
 
 /// Writes the escape sequence code to change foreground to rgb color

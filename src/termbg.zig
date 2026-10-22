@@ -49,7 +49,7 @@ fn detectImpl(io: Io, input: Io.File, output: *Io.Writer, timeout: i32) !Rgb16 {
     var buf: [128]u8 = undefined;
     var n: usize = 0;
 
-    switch (builtin.os.tag) {
+    switch (builtin.target.os.tag) {
         .linux, .macos => {
             var polls: [1]posix.pollfd = .{.{
                 .fd = input.handle,

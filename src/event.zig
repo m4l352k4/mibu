@@ -265,7 +265,7 @@ pub fn parseModeReport(bytes: []const u8, mode: u16) ModeStatus {
 
 /// Poll `file` for readability (ms; 0 = non-blocking, <0 = forever).
 pub fn pollReadable(file: Io.File, timeout_ms: i32) !bool {
-    switch (builtin.os.tag) {
+    switch (builtin.target.os.tag) {
         .linux, .macos => {
             var polls: [1]posix.pollfd = .{.{
                 .fd = file.handle,
